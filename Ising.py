@@ -6,7 +6,7 @@ class Ising:
 	def __init__(self, netsize):	#Create ising model
 	
 		self.size=netsize
-		self.h=np.zeros(netsize)
+		self.H=np.zeros(netsize)
 		self.J=np.zeros((netsize,netsize))
 		self.randomize_state()
 		self.Beta=1.0
@@ -122,7 +122,7 @@ class Ising:
 	def GlauberStep(self,i=None):			#Execute step of Glauber algorithm
 		if i is None:
 			i = np.random.randint(self.size)
-		eDiff = 2*self.s[i]*(self.h[i] + np.dot(self.J[i,:]+self.J[:,i],self.s))
+		eDiff = 2*self.s[i]*(self.H[i] + np.dot(self.J[i,:]+self.J[:,i],self.s))
 		if eDiff < np.log(1/np.random.rand()-1)/self.Beta:    # Glauber
 			self.s[i] = -self.s[i]
 
@@ -132,7 +132,7 @@ class Ising:
 
 
 	def deltaE(self,i):		#Compute energy difference between two states with a flip of spin i
-		return 2*(self.s[i]*self.h[i] + np.sum(self.s[i]*(self.J[i,:]*self.s)+self.s[i]*(self.J[:,i]*self.s)))
+		return 2*(self.s[i]*self.H[i] + np.sum(self.s[i]*(self.J[i,:]*self.s)+self.s[i]*(self.J[:,i]*self.s)))
  
 			
 				
@@ -172,7 +172,7 @@ class Ising:
 		self.E=np.zeros(2**self.size)
 		for n in range(2**self.size):
 			s=bitfield(n,self.size)*2-1
-			self.E[n]=-(np.dot(s,self.h) + np.dot(np.dot(s,self.J),s))
+			self.E[n]=-(np.dot(s,self.H) + np.dot(np.dot(s,self.J),s))
 		self.Em=np.sum(self.P*self.E)
 
 	def HeatCapacity(self):	#Compute energy function
