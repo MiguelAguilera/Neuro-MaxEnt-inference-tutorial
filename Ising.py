@@ -29,7 +29,7 @@ class Ising:
 		if i is None:
 			i = np.random.randint(self.size)
 		eDiff = self.deltaE(i)
-		if eDiff <= 0 or np.random.rand() < np.exp(-self.Beta*eDiff):    # Metropolis
+		if eDiff <= 0 or np.log(np.random.rand())< -self.Beta*eDiff:    # Metropolis
 			self.s[i] = -self.s[i]
 
 	def deltaE(self,i):		#Compute energy difference between two states with a flip of spin i
@@ -44,7 +44,7 @@ class Ising:
 		if i is None:
 			i = np.random.randint(self.size)
 		eDiff = 2*self.s[i]*(self.H[i] + np.dot(self.J[i,:]+self.J[:,i],self.s))
-		if eDiff < np.log(1/np.random.rand()-1)/self.Beta:    # Glauber
+		if self.Beta*eDiff < np.log(1/np.random.rand()-1):    # Glauber
 			self.s[i] = -self.s[i]
 
 	def SequentialGlauberStep(self):
