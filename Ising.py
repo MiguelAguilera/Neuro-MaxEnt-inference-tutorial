@@ -2,7 +2,7 @@ import numpy as np
 from itertools import combinations
 import matplotlib.pyplot as plt
 
-class ising:
+class Ising:
 	def __init__(self, netsize):	#Create ising model
 	
 		self.size=netsize
