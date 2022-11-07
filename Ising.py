@@ -43,9 +43,8 @@ class Ising:
 	def GlauberStep(self,i=None):			#Execute step of Glauber algorithm
 		if i is None:
 			i = np.random.randint(self.size)
-		eDiff = 2*self.s[i]*(self.H[i] + np.dot(self.J[i,:]+self.J[:,i],self.s))
-		if self.Beta*eDiff < np.log(1/np.random.rand()-1):    # Glauber
-			self.s[i] = -self.s[i]
+		h = 2*self.s[i]*(self.H[i] + np.dot(self.J[i,:]+self.J[:,i],self.s))
+		self.s[i] = int(random.rand() < np.tanh(self.Beta*h))    # Glauber
 
 	def SequentialGlauberStep(self):
 		for i in np.random.permutation(self.size):
