@@ -18,7 +18,7 @@ class Ising:
 		if i is None:
 			i = np.random.randint(self.size)
 		h = self.H[i] + np.dot(self.J[i,:],self.s)
-		self.s[i] = int(np.random.rand()*2-1 < np.tanh(self.Beta*h))    # Glauber
+		self.s[i] = int(np.random.rand()*2-1 < np.tanh(self.Beta*h))*2-1   # Glauber
 
 	def SequentialGlauberStep(self):
 		for i in np.random.permutation(self.size):
